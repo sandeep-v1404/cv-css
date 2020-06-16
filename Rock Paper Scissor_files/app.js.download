@@ -1,0 +1,100 @@
+let userScore = 0;
+let compScore = 0;
+const userScore_span = document.getElementById("user-score");
+const compScore_span = document.getElementById("comp-score");
+const scoreBoard_div = document.querySelector(".score-board");
+const result_p = document.querySelector(".result > p");
+const rock_div = document.getElementById("r");
+const paper_div = document.getElementById("p");
+const scissor_div = document.getElementById("s");
+function getComputerChoice() {
+  const choices = ["r", "p", "s"];
+  const a = choices[Math.floor(Math.random() * 3)];
+  return a;
+}
+function letterTOword(letter) {
+  if (letter == "r") return "Rock";
+  if (letter == "s") return "Scissor";
+  return "Paper";
+}
+function win(userchoice, ComputerChoice, smallUserWord, smallCompWord) {
+  const a = document.getElementById(userchoice).classList;
+  userScore++;
+  userScore_span.innerHTML = userScore;
+  compScore_span.innerHTML = compScore;
+  result_p.innerHTML =
+    letterTOword(userchoice) +
+    smallUserWord +
+    " beats " +
+    letterTOword(ComputerChoice) +
+    smallCompWord +
+    " .You Win !";
+  a.add("green-background");
+  setTimeout(() => {
+    a.remove("green-background");
+  }, 1000);
+}
+function draw(userchoice, ComputerChoice, smallUserWord, smallCompWord) {
+  const a = document.getElementById(userchoice).classList;
+  result_p.innerHTML =
+    letterTOword(userchoice) +
+    smallUserWord +
+    " equals to " +
+    letterTOword(ComputerChoice) +
+    smallCompWord +
+    " .Its a Draw !";
+  a.add("gray-background");
+  setTimeout(() => {
+    a.remove("gray-background");
+  }, 1000);
+}
+function lose(userchoice, ComputerChoice, smallUserWord, smallCompWord) {
+  const a = document.getElementById(userchoice).classList;
+  compScore++;
+  userScore_span.innerHTML = userScore;
+  compScore_span.innerHTML = compScore;
+  result_p.innerHTML =
+    letterTOword(userchoice) +
+    smallUserWord +
+    " beats to " +
+    letterTOword(ComputerChoice) +
+    smallCompWord +
+    " .You Lose !";
+  a.add("red-background");
+  setTimeout(() => {
+    a.remove("red-background");
+  }, 1000);
+}
+function game(userchoice) {
+  const ComputerChoice = getComputerChoice();
+  const smallUserWord = "user".fontsize(3).sub();
+  const smallCompWord = "comp".fontsize(3).sub();
+  switch (userchoice + ComputerChoice) {
+    case "pr":
+    case "rs":
+    case "sp":
+      win(userchoice, ComputerChoice, smallUserWord, smallCompWord);
+      return;
+    case "pp":
+    case "rr":
+    case "ss":
+      draw(userchoice, ComputerChoice, smallUserWord, smallCompWord);
+      return;
+    case "ps":
+    case "rp":
+    case "sr":
+      lose(userchoice, ComputerChoice, smallUserWord, smallCompWord);
+  }
+}
+function main() {
+  rock_div.addEventListener("click", function () {
+    game("r");
+  });
+  paper_div.addEventListener("click", function () {
+    game("p");
+  });
+  scissor_div.addEventListener("click", function () {
+    game("s");
+  });
+}
+main();
